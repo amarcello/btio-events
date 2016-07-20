@@ -1,0 +1,86 @@
+<md-content class="md-padding event-detail" layout-xs="column" layout="row">
+    <div hide-xs hide-sm flex-gt-sm="25" layout="column">
+        <md-card>
+            <div layout="row" layout-align="center center">
+                <img ng-src="{{item.img}}" src="img/events.png" class="md-card-image" alt="Florence + The Machine" />
+            </div>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline" md-colors="{'color': 'primary'}">Create your event</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultricies rutrum ex eu vulputate. Vestibulum vitae risus orci. Pellentesque auctor justo non purus convallis fringilla.</p>
+                <p><small>Fields with (*) are required</small></p>
+            </md-card-content>
+        </md-card>
+    </div>
+    <div flex-xs flex-gt-sm="75" layout="column" class="join">
+        <form name="createForm" class="md-padding">
+            <md-subheader class="md-no-sticky">Basic Info</md-subheader>
+            <div layout="row" layout-xs="column">
+                <md-input-container class="md-block" flex-gt-md="75">
+                    <label>Event Title</label>
+                    <input name="title" ng-model="create.data.title" placeholder="Enter the event title" maxlength="70" md-maxlength="70" required  />
+                    <div ng-messages="createForm.title.$error" ng-if="!createForm.title.$pristine && !createForm.title.$valid">
+                        <div ng-message="required">Title is required.</div>
+                    </div>
+                </md-input-container>
+                <div flex="5" hide-xs hide-sm></div>
+                <md-input-container class="md-block" flex-gt-md="25">
+                    <label>Seats Limit</label>
+                    <input name="seats" ng-model="create.data.seats" placeholder="99" min="1" max="50" type="number" required />
+                    <div ng-messages="createForm.seats.$error" ng-if="!createForm.seats.$pristine && !createForm.seats.$valid">
+                        <div ng-message="required">Min seats: 1</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <md-subheader class="md-no-sticky">When and How</md-subheader>
+            <div layout="row" layout-xs="column">
+                <md-input-container flex>
+                    <label>Start Date</label>
+                    <input name="date_start" ng-model="create.data.start_date" placeholder="MM/DD/YYYY" type="date" min="{{create.now | date:'yyyy-MM-dd'}}" required />
+                </md-input-container>
+                <div flex="5" hide-xs hide-sm></div>
+                <md-input-container flex>
+                    <label>Start Time</label>
+                    <input name="start_time" ng-model="create.data.start_time" placeholder="MM/DD/YYYY" type="time" required />
+                </md-input-container>
+                <div flex="5" hide-xs hide-sm></div>
+                <md-input-container flex>
+                    <label>End Date</label>
+                    <input name="end_date" ng-model="create.data.end_date" placeholder="MM/DD/YYYY" type="date" min="{{create.now | date:'yyyy-MM-dd'}}" required />
+                </md-input-container>
+                <div flex="5" hide-xs hide-sm></div>
+                <md-input-container flex>
+                    <label>End Time</label>
+                    <input name="end_time" ng-model="create.data.end_time" placeholder="MM/DD/YYYY" type="time" required />
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-switch ng-model="create.data.sessions" aria-label="The event has sessions" flex-gt-sm>The event has sessions</md-switch>
+            </div>
+            <md-subheader class="md-no-sticky">Extra Fields <small>(Optional)</small></md-subheader>
+            <div layout="row" layout-xs="column">
+                <md-input-container flex>
+                    <label>Description</label>
+                    <textarea md-maxlength="700" maxlength="700" name="description" ng-model="create.data.description" rows="2" required></textarea>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-xs="column">
+                <md-input-container flex>
+                    <label>Featured Picture (URL)</label>
+                    <input name="thumb" ng-model="create.data.thumb" ng-pattern="/^((https?|ftp):)?\/\/.*(jpeg|jpg|png|gif|bmp)$/" />
+                    <div ng-messages="createForm.thumb.$error" ng-if="!createForm.thumb.$pristine && !createForm.thumb.$valid">
+                        <div ng-message="pattern">Please enter a valid image URL</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout-gt-xs="row">
+                <md-input-container class="md-block" flex>
+                    <md-button class="md-raised md-primary md-block" ng-click="create.submit()"><md-icon aria-label="Join Icon">check</md-icon> Create Event</md-button>
+                </md-input-container>
+            </div>
+        </form>
+    </div>
+</md-content>

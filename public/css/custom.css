@@ -1,0 +1,144 @@
+body {
+    font-family: 'Roboto';
+}
+
+md-card md-card-title {
+    padding: 16px
+}
+
+md-card md-card-title md-card-title-text .md-subhead {
+    line-height: 36px
+}
+
+md-card md-card-title md-card-title-text:only-child .md-subhead {
+    padding-top: 0
+}
+
+md-card .image-wrapper {
+    height: 200px;
+    overflow: hidden;
+}
+
+md-card .image-wrapper img {
+    height: auto! important;
+    transition: all .5s ease-in-out;
+}
+
+md-card.closed img,
+md-card.sold-out img {
+    opacity: 0.3
+}
+
+md-card.closed .md-headline,
+md-card.sold-out .md-headline {
+    opacity: 0.5
+}
+
+md-card.event-item:hover img {
+    transform: scale(1.1);
+}
+
+md-content {
+    background: none;
+}
+
+.content {
+    background: #DCDCDC;
+    min-height: 100%;
+    min-height: 100vh;
+}
+
+.content a {
+    text-decoration: none;
+}
+
+.content .wrapper {
+    margin: 2em auto;
+    max-width: 1280px;
+    min-height: calc(100vh - (95px*2));
+}
+
+.custom-brand {
+    color: $md-primary;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Cookie", sans-serif;
+    font-size: 6em;
+    font-weight: 100;
+    margin: 15px 0;
+    padding: 10px 15px;
+    text-align: center;
+    text-transform: lowercase;
+}
+
+.event-create {
+    margin: 0 auto;
+    max-width: 928px;
+}
+
+.event-detail md-card-content p {
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.event-detail md-list-item strong {
+    text-transform: lowercase;
+}
+
+.event-detail .join h2,
+.event-detail .join h3 {
+    border-bottom: 1px solid rgba(145,145,145,0.87);
+    font-weight: 400;
+    margin-bottom: .83em;
+    padding: 0 0.83em 0.83em;
+    text-align: right;
+    width: 100%;
+}
+
+.event-detail .join h3 {
+    font-size: 18px;
+    margin-bottom: 0;
+    margin-top: 1.83em;
+    text-align: left;
+}
+
+.event-item md-list-item {
+    font-size: 85%;
+}
+
+.event-item md-list-item strong {
+    text-transform: lowercase;
+}
+
+.event-item .md-headline {
+    margin-bottom: .5em;
+}
+
+.footer button {
+    bottom: 50%;
+    right: 1em
+}
+
+.hint {
+    opacity: 0.75;
+}
+
+.md-subheader + div {
+    margin-top: 0.5em;
+}
+md-input-container label {
+    color: rgba(0, 0, 0, 0.38);
+}
+
+.md-toolbar-tools .brand {
+    border: 2px solid rgba(255,255,255,0.75);
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Cookie", sans-serif;
+    font-size: 40px;
+    height: 40px;
+    line-height: 32px;
+    text-align: center;
+    width: 40px;
+}

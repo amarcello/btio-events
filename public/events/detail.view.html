@@ -1,0 +1,108 @@
+<div class="loader md-padding" ng-show="detail.isLoading">
+    <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+    <h5 class="md-title">Loading Event</h5>
+</div>
+<md-content class="md-padding event-detail" layout-xs="column" layout="row" ng-show="!detail.isLoading" ng-init="detail.closed = detail.today > detail.dates.start" >
+    <div flex-xs flex-gt-xs="50" layout="column">
+        <md-card>
+            <div layout="row" layout-align="center center">
+                <img ng-src="{{detail.data.img}}" class="md-card-image" alt="{{detail.data.name}}" />
+            </div>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline" md-colors="{'color': 'primary'}">{{detail.data.name}}</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <p>{{detail.data.description}}</p>
+                <md-list-item>
+                    <md-icon aria-label="Schedule Icon" md-colors="{'color': 'primary'}">date_range</md-icon>
+                    <p> From <strong>{{detail.data.dates.start | date:'MM/dd/yyyy h:mma'}}</strong> to <strong>{{detail.data.dates.end | date:'MM/dd/yyyy h:mma'}}</strong> </p>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <md-icon aria-label="Limit Attendees" md-colors="{'color': 'primary'}">people</md-icon>
+                    <p> Limited to <strong>{{detail.data.seats.total}}</strong> attendees </p>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <md-icon aria-label="Limit Attendees" md-colors="{'color': 'primary'}">assignment</md-icon>
+                    <p> {{detail.closed ? 'Closed' : detail.data.soldout ? 'Sold Out' : 'Open to Register'}} </p>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <md-icon aria-label="Timelapse Icon" md-colors="{'color': 'primary'}">timelapse</md-icon>
+                    <p> {{detail.data.seats.total - detail.data.seats.joined}} seats available</p>
+                </md-list-item>
+            </md-card-content>
+        </md-card>
+    </div>
+    <div flex-xs flex-gt-xs="50" layout="column" class="join">
+        <form name="joinForm" class="md-padding" novalidate ng-submit="joinForm.$valid && detail.invitee()">
+            <input ng-model="detail.attendee.event" type="hidden" />
+            <div layout="row">
+                <h2 md-colors="{'color': 'primary'}">Join Now</h2>
+            </div>
+            <div layout-gt-xs="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>First Name</label>
+                    <input name="first_name" ng-model="detail.attendee.first_name" md-minlength="3" autocomplete="off" required />
+                    <div ng-messages="joinForm.first_name.$error" ng-if="!joinForm.first_name.$pristine && !joinForm.first_name.$valid">
+                        <div ng-message="required">Name is required.</div>
+                    </div>
+                </md-input-container>
+                <div flex="5" hide-xs hide-sm></div>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Last Name</label>
+                    <input name="last_name" ng-model="detail.attendee.last_name" md-minlength="3" autocomplete="off" required />
+                    <div ng-messages="joinForm.last_name.$error" ng-if="!joinForm.last_name.$pristine && !joinForm.last_name.$valid">
+                        <div ng-message="required">Last Name is required.</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout-gt-xs="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Email</label>
+                    <input name="email" ng-model="detail.attendee.email" type="email" autocomplete="off" required />
+                    <div ng-messages="joinForm.email.$error" ng-if="!joinForm.email.$pristine && !joinForm.email.$valid">
+                        <div ng-message="required">Inform a valid e-mail.</div>
+                    </div>
+                </md-input-container>
+                <div flex="5" hide-xs hide-sm></div>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Phone Number</label>
+                    <input name="phone" ng-model="detail.attendee.phone" ng-pattern="/^[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}$/" autocomplete="off" required />
+                    <p class="hint"><small>(###) ###-####</small></p>
+                    <div ng-messages="joinForm.phone.$error" ng-if="!joinForm.phone.$pristine && !joinForm.phone.$valid">
+                        <div ng-message="pattern">Please enter a valid phone number.</div>
+                    </div>
+                </md-input-container>
+                <div flex="5" hide-xs hide-sm></div>
+                <md-input-container class="md-block" flex-gt-xs>
+                    <label>Company</label>
+                    <input name="company" ng-model="detail.attendee.company" autocomplete="off" required />
+                    <div ng-messages="joinForm.company.$error" ng-if="!joinForm.company.$pristine && !joinForm.company.$valid">
+                        <div ng-message="required">Company is required.</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <md-list>
+                <div layout="row">
+                    <h3 md-colors="{'color': 'primary'}">Select the sessions you want to join [not real data]</h3>
+                </div>
+                <md-list-item ng-repeat="session in detail.sessions">
+                    <md-checkbox class="md-secondary" ng-model="detail.selected[session.ID]"></md-checkbox>
+                    <p>{{session.name}}</p>
+                    <md-divider></md-divider>
+                </md-list-item>
+            </md-list>
+            <div layout-gt-xs="row">
+                <md-input-container class="md-block" flex>
+                    <md-button class="md-raised md-primary md-block" type="submit"><md-icon aria-label="Join Icon">check</md-icon> Register to the  Event </md-button>
+                    <md-progress-circular class="md-primary" ng-show="detail.sending" md-diameter="20px"></md-progress-circular>
+                    <span ng-messages="joinForm.$error" ng-if="joinForm.$submitted && !joinForm.$valid">Please correct the highlighted fields and try again.</span>
+                </md-input-container>
+            </div>
+        </form>
+    </div>
+</md-content>

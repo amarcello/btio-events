@@ -1,0 +1,49 @@
+<md-content class="md-padding" layout="row" layout-align="center start" layout-wrap>
+    <h1 class="md-display-4 custom-brand" ui-sref="home" md-colors="{'color': 'primary'}">Eventipsum</h1>
+</md-content>
+<div class="loader md-padding" ng-show="main.isLoading">
+    <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+    <h5 class="md-title">Loading Events</h5>
+</div>
+<md-content class="md-padding" layout-xs="column" layout="row" layout-align="left start" layout-wrap ng-show="!main.isLoading">
+    <div flex-xs flex-xs="100" flex-sm="50" flex-gt-sm="33" flex-gt-md="25" ng-repeat="item in main.items | orderBy:'-dates.start'" ng-init="item.closed = main.today > item.dates.start" ng-show="item.name">
+        <md-card class="event-item" ng-class="{'sold-out' : item.soldout, 'closed' : item.closed}">
+            <a layout="row" layout-align="center center" ui-sref="events-detail({eventId: item.ID})" class="image-wrapper" ng-if="!item.soldout && !item.closed">
+                <img ng-src="{{item.img}}" class="md-card-image" alt="{{item.name}}" />
+            </a>
+            <div layout="row" layout-align="center center" class="image-wrapper" ng-if="item.soldout || item.closed">
+                <img ng-src="{{item.img}}" class="md-card-image" alt="{{item.name}}" />
+            </div>
+            <md-card-title>
+                <md-card-title-text>
+                    <a class="md-headline" md-colors="{'color': 'primary'}" ui-sref="events-detail({eventId: item.ID})" ng-if="!item.soldout && !item.closed">{{item.name}}</a>
+                    <span class="md-headline" md-colors="{'color': 'primary'}" ng-if="item.soldout || item.closed">{{item.name}}</span>
+                    <md-list-item>
+                        <md-icon aria-label="Schedule Icon">date_range</md-icon>
+                        <p> From <strong>{{item.dates.start | date:'MM/dd/yy h:mma'}}</strong> to <strong>{{item.dates.end | date:'MM/dd/yy h:mma'}}</strong> </p>
+                    </md-list-item>
+                    <md-divider></md-divider>
+                    <md-list-item>
+                        <md-icon aria-label="Limit Attendees">people</md-icon>
+                        <p> Limited to <strong>{{item.seats.total}}</strong> attendees </p>
+                    </md-list-item>
+                    <md-divider></md-divider>
+                    <md-list-item>
+                        <md-icon aria-label="Limit Attendees">assignment</md-icon>
+                        <p> {{item.closed ? 'Closed' : item.soldout ? 'Sold Out' : 'Open to Register'}} </p>
+                    </md-list-item>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="space-between center">
+                <md-button ui-sref="events-detail({eventId: item.ID})" ng-class="{'md-primary md-raised' : !item.soldout && !item.closed}" ng-disabled="item.soldout || item.closed">
+                    <md-icon aria-label="Join Icon">
+                        {{item.soldout || item.closed ? 'close' : 'check'}}
+                    </md-icon> {{item.closed ? 'Closed' : item.soldout ? 'Sold Out' : 'Join'}}
+                </md-button>
+                <md-button  ui-sref="events-detail({eventId: item.ID})" class="md-flat" ng-if="!item.soldout && !item.closed" md-colors="{'color': 'primary'}">
+                    <md-icon aria-label="Timelapse Icon" md-colors="{'color': 'primary'}">timelapse</md-icon> {{item.seats.total - item.seats.joined}} <small>seats available</small>
+                </md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
+</md-content>
