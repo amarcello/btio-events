@@ -27,11 +27,14 @@
                                 var events = [];
                                 angular.forEach(result.data, function(item) {
                                     if(item.Subject){
-                                        var closed, soldout, final = {
+                                        var dateEnd = item.EndDateTime.replace(".000+0000","").split("T"),
+                                        dateStart = item.StartDateTime.replace(".000+0000","").split("T"),
+                                        closed, soldout, yesterday = new Date(),
+                                        final = {
                                             "ID"    : item.Id,
                                             "dates" : {
-                                                end   : item.EndDateTime,
-                                                start : item.StartDateTime
+                                                end  : new Date(dateEnd[0]+"T"+dateEnd[1]),
+                                                start : new Date(dateStart[0]+"T"+dateStart[1])
                                             },
                                             "description" : item.Description,
                                             "img"   : item.Thumb__c,
@@ -42,9 +45,15 @@
                                             }
                                         }
 
+                                        yesterday.setHours(-1);
+                                        yesterday.setMinutes(59);
+                                        yesterday.setSeconds(59);
+
+                                        final.closed = (yesterday > final.dates.start);
                                         final.soldout = (final.seats.total === final.seats.joined)
 
                                         events.push(final);
+
                                     }
                                 });
                                 resolve(events);

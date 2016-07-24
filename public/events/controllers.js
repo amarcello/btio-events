@@ -61,7 +61,6 @@
                     "ID"   : "005"
                 }
             ];
-            detail.today = new Date();
 
             EventsService.get($stateParams.eventId).then(function(result) {
                 detail.attendee.event = result[0].ID;

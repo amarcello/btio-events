@@ -6,12 +6,12 @@
     <h5 class="md-title">Loading Events</h5>
 </div>
 <md-content class="md-padding" layout-xs="column" layout="row" layout-align="left start" layout-wrap ng-show="!main.isLoading">
-    <div flex-xs flex-xs="100" flex-sm="50" flex-gt-sm="33" flex-gt-md="25" ng-repeat="item in main.items | orderBy:'-dates.start'" ng-init="item.closed = main.today > item.dates.start" ng-show="item.name">
+    <div flex-xs flex-xs="100" flex-sm="50" flex-gt-sm="33" flex-gt-md="25" ng-repeat="item in main.items | orderBy:'-dates.start'" ng-show="item.name">
         <md-card class="event-item" ng-class="{'sold-out' : item.soldout, 'closed' : item.closed}">
-            <a layout="row" layout-align="center center" ui-sref="events-detail({eventId: item.ID})" class="image-wrapper" ng-if="!item.soldout && !item.closed">
+            <a layout="row" layout-align="center center" ui-sref="events-detail({eventId: item.ID})" class="image-wrapper"  ng-if="(!item.soldout || !item.closed) && item.img">
                 <img ng-src="{{item.img}}" class="md-card-image" alt="{{item.name}}" />
             </a>
-            <div layout="row" layout-align="center center" class="image-wrapper" ng-if="item.soldout || item.closed">
+            <div layout="row" layout-align="center center" class="image-wrapper" ng-if="(item.soldout || item.closed) && item.img">
                 <img ng-src="{{item.img}}" class="md-card-image" alt="{{item.name}}" />
             </div>
             <md-card-title>
